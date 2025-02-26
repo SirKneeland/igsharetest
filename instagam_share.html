@@ -6,39 +6,44 @@
     <title>Share to Instagram Stories</title>
     <script>
         function shareToInstagram() {
-            const videoURL = "https://yourwebsite.com/path-to-your-video.mp4";  // Replace with a real video URL
-            const linkURL = "https://yourwebsite.com/promo";  // Replace with your real website
+            const videoURL = "https://yourwebsite.com/path-to-your-video.mp4";  // Replace with your actual video link
+            const linkURL = "https://yourwebsite.com/promo";  // Replace with your actual promo link
             const mentionUsername = "@geniegetsme"; 
 
-            // Copy @mention to clipboard
-            navigator.clipboard.writeText(mentionUsername).then(() => {
-                console.log("Copied mention to clipboard:", mentionUsername);
+            // Copy link and mention to clipboard
+            const fullText = `${mentionUsername} ${linkURL}`;
+            navigator.clipboard.writeText(fullText).then(() => {
+                console.log("Copied link and mention to clipboard:", fullText);
             }).catch(err => {
                 console.error("Clipboard write failed:", err);
             });
 
-            // Instagram URL Scheme
-            const instagramURL = `instagram-stories://share?source_application=com.genie&background_video=${encodeURIComponent(videoURL)}&content_url=${encodeURIComponent(linkURL)}`;
+            // Instagram URL Scheme (media only, no pre-filled link)
+            const instagramURL = `instagram-stories://share?source_application=com.genie&background_video=${encodeURIComponent(videoURL)}`;
 
             // Delay to improve deep link handling
             setTimeout(function() {
                 window.location.href = instagramURL;
             }, 500);
 
-            // Alert user
-            alert("Instagram is opening! Paste '@geniegetsme' in your Story.");
+            // Show user instructions
+            document.getElementById("instructions").style.display = "block";
         }
     </script>
 </head>
 <body>
 
-    <h1>Test Instagram Story Share</h1>
+    <h1>Share to Instagram Story</h1>
     <button onclick="shareToInstagram()" style="padding: 10px 20px; font-size: 18px; cursor: pointer;">
         Share to Instagram Stories
     </button>
 
-    <!-- Manual backup link -->
-    <p>If the button doesn't work, <a href="instagram-stories://share" id="manualLink">tap here</a>.</p>
+    <!-- Instructions (Hidden Until Click) -->
+    <div id="instructions" style="display: none; margin-top: 20px; font-size: 16px;">
+        ✅ Instagram is opening! <br>
+        👉 **Manually add the link**: Tap the **"Sticker" button → Select "Link"** and **paste** the link (already copied).<br>
+        📋 Your @mention **@geniegetsme** is also copied! Just paste it into the Story text tool.<br>
+    </div>
 
 </body>
 </html>
